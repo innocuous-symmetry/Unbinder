@@ -6,6 +6,8 @@ using Microsoft.Identity.Web;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web.UI;
 using Unbinder.DB;
+using Unbinder.Models;
+using Unbinder.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -18,15 +20,17 @@ builder.Services.AddAuthorization(options =>
     // By default, all incoming requests will be authorized according to the default policy.
     options.FallbackPolicy = options.DefaultPolicy);
 
-builder.Services.AddRazorPages()
-    .AddMicrosoftIdentityUI();
-
-builder.Services.AddMvc();
-
 builder.Services.AddDbContext<UnbinderDbContext>(options =>
-    options.UseSqlServer(connectionString, providerOptions => 
-        providerOptions.EnableRetryOnFailure())
-);
+    options.UseSqlServer(connectionString));
+
+// configure MVC
+builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<IRecipeRepository, RecipeRepository>();
+builder.Services.AddScoped<IIngredientRepository, IngredientRepository>();
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddServerSideBlazor();
 
 var app = builder.Build();
 
@@ -38,16 +42,14 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-app.UseRouting();
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.UseAuthentication();
 app.UseAuthorization();
-
-app.MapRazorPages();
-app.MapControllers();
 
 Initializer.Seed(app);
 

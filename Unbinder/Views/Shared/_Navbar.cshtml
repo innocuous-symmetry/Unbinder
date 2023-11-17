@@ -1,0 +1,16 @@
+﻿<div class="w-full flex bg-black h-12 items-center justify-between">
+    <!-- NAVBAR CONTAINER LEFT SIDE -->
+    <div id="unbinder-logo" class="text-red-500 text-2xl">
+        <a asp-controller="Home" asp-action="Index">UNBINDER</a>
+    </div>
+
+    <!-- NAVBAR CONTAINER RIGHT SIDE -->
+    <div id="navbar-right-button-group">
+        <a asp-controller="Recipe" asp-action="Index" class="p-4 bg-slate-800 text-white rounded-lg">
+            View All Recipes
+        </a>
+        <a asp-controller="Recipe" asp-action="Search" class="p-4 bg-slate-800 text-white rounded-lg border border-black">
+            Search My Recipes
+        </a>
+    </div>
+</div>

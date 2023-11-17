@@ -3,7 +3,7 @@ using Unbinder.Repositories;
 
 namespace Unbinder.Controllers.Api
 {
-    public abstract class BaseApiController<T> : ControllerBase
+    public abstract class BaseApiController<T> : ControllerBase where T : class
     {
         protected readonly IBaseRepository<T> repository;
 

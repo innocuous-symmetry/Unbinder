@@ -1,0 +1,13 @@
+﻿@model IEnumerable<Recipe>
+
+@{
+    ViewBag.Title = "Recipes";
+}
+
+<div id="recipe-list-container">
+    @foreach (var recipe in @Model)
+    {
+        <p>@recipe.Name</p>
+        <p>@recipe.RecipeText</p>
+    }
+</div>
