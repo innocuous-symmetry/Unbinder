@@ -5,9 +5,9 @@ namespace Unbinder.Repositories
 {
     public class RecipeRepository : IRecipeRepository
     {
-        private readonly RecipeServerDbContext _dbContext;
+        private readonly UnbinderDbContext _dbContext;
 
-        public RecipeRepository(RecipeServerDbContext dbContext)
+        public RecipeRepository(UnbinderDbContext dbContext)
         {
             _dbContext = dbContext;
         }

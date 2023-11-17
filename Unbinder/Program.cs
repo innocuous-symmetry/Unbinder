@@ -3,23 +3,30 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Identity.Web;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web.UI;
+using Unbinder.DB;
 
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 // Add services to the container.
 builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"));
 
 builder.Services.AddAuthorization(options =>
-{
     // By default, all incoming requests will be authorized according to the default policy.
-    options.FallbackPolicy = options.DefaultPolicy;
-});
+    options.FallbackPolicy = options.DefaultPolicy);
+
 builder.Services.AddRazorPages()
     .AddMicrosoftIdentityUI();
 
 builder.Services.AddMvc();
+
+builder.Services.AddDbContext<UnbinderDbContext>(options =>
+    options.UseSqlServer(connectionString, providerOptions => 
+        providerOptions.EnableRetryOnFailure())
+);
 
 var app = builder.Build();
 
@@ -41,5 +48,7 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 app.MapControllers();
+
+Initializer.Seed(app);
 
 app.Run();
