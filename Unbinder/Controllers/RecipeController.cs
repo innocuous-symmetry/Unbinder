@@ -31,5 +31,10 @@ namespace Unbinder.Controllers
                 ? NotFound() 
                 : View(result);
         }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
     }
 }
