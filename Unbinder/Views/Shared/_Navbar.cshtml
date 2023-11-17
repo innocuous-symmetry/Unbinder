@@ -1,19 +1,19 @@
-﻿<div class="w-full flex bg-black h-12 items-center justify-between">
+﻿<header class="w-full flex bg-[#101010] border-white border-b h-12 px-4 items-center justify-between">
     <!-- NAVBAR CONTAINER LEFT SIDE -->
     <div id="unbinder-logo" class="text-red-500 text-2xl">
         <a asp-controller="Home" asp-action="Index">UNBINDER</a>
     </div>
 
     <!-- NAVBAR CONTAINER RIGHT SIDE -->
-    <div id="navbar-right-button-group">
-        <a asp-controller="Recipe" asp-action="Index" class="p-4 bg-slate-800 text-white rounded-lg">
+    <div id="navbar-right-button-group" class="flex">
+        <a asp-controller="Recipe" asp-action="Index" class="bg-slate-800 text-white rounded-lg p-2 mx-2 flex flex-col items-center">
             View All Recipes
         </a>
-        <a asp-controller="Recipe" asp-action="Create" class="p-4 bg-slate-800 text-white rounded-lg border border-black">
+        <a asp-controller="Recipe" asp-action="Create" class="bg-slate-800 text-white rounded-lg p-2 mx-2 flex flex-col items-center">
             Add New Recipe
         </a>
-        <a asp-controller="Recipe" asp-action="Search" class="p-4 bg-slate-800 text-white rounded-lg border border-black">
+        <a asp-controller="Recipe" asp-action="Search" class="bg-slate-800 text-white rounded-lg p-2 ml-2 flex flex-col items-center">
             Search My Recipes
         </a>
     </div>
-</div>
+</header>

@@ -25,6 +25,7 @@ builder.Services.AddDbContext<UnbinderDbContext>(options =>
 
 // configure MVC
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
 
 builder.Services.AddScoped<IRecipeRepository, RecipeRepository>();
 builder.Services.AddScoped<IIngredientRepository, IngredientRepository>();
@@ -44,12 +45,10 @@ if (!app.Environment.IsDevelopment())
 
 app.UseStaticFiles();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapDefaultControllerRoute();
 
 Initializer.Seed(app);
 

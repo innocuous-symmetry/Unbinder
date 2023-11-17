@@ -1,9 +1,33 @@
-﻿<form asp-action="Create" method="post" role="form">
-    <h2>Let's add to your personal data store.</h2>
+﻿@model Recipe
 
-    <div asp-validation-summary="All" class="text-red-300" />
+<form asp-action="Create" method="post" role="form" class="flex flex-col w-full">
+    <h2>Let's add your new recipe.</h2>
 
-    <div class="flex flex-col items-center">
+    <div asp-validation-summary="All" />
 
+    <div class="flex flex-col items-center w-full px-18 py-6 bg-slate-700 rounded-lg">
+        <div class="flex w-full my-4">
+            <div class="w-1/2">
+                <label class="w-1/4" asp-for="Name">Name</label>
+                <input required class="w-3/4 text-black" asp-for="Name" />
+            </div>
+
+            <div class="w-1/2">
+                <label class="w-1/4" asp-for="Author">Author</label>
+                <input required class="w-3/4 text-black" asp-for="Author" />
+            </div>
+        </div>
+
+        <div class="flex w-full my-4">
+            <label class="w-1/6" asp-for="ShortDescription">Short Description (optional)</label>
+            <textarea class="w-5/6 text-black" asp-for="ShortDescription"></textarea>
+        </div>
+
+        <div class="flex w-full my-4">
+            <label class="w-1/6" asp-for="RecipeText">Recipe Text (optional)</label>
+            <textarea class="w-5/6 text-black" asp-for="RecipeText"></textarea>
+        </div>
+
+        <button type="submit">Publish Recipe</button>
     </div>
 </form>

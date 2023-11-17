@@ -1,5 +1,20 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model IEnumerable<Recipe>
+
+<div>
+    <p id="displayed-query-string"></p>
+    @foreach (var recipe in @Model)
+    {
+        <p>@recipe.Name</p>
+        <p>@recipe.RecipeText</p>
+    }
+</div>
+<script type="text/javascript">
+    const query = window.location.search?.split("=")[1];
+    const target = document.getElementById("displayed-query-string");
+
+    if (query) {
+        target.innerHTML = `Viewing ${@Model.ToArray().Length} results for: ${query}`;
+    } else {
+        target.innerHTML = "Enter a new search term below:";
+    }
+</script>

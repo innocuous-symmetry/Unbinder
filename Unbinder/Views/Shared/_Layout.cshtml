@@ -1,16 +1,17 @@
 ﻿<html>
     <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>@ViewBag.Title</title>
+        <script src="~/js/site.js"></script>
         <script src="https://cdn.tailwindcss.com"></script>
+        <link href="~/css/site.css" rel="stylesheet" />
+        <base href="/" />
     </head>
-    <body>
-        <header>
-            <partial name="_Navbar" />
-        </header>
+    <body class="bg-black text-white">
+        <partial name="_Navbar" />
         <main>
             @RenderBody()
         </main>
-        <footer>
-            <partial name="_Footer" />
-        </footer>
+        <partial name="_Footer" />
     </body>
 </html>

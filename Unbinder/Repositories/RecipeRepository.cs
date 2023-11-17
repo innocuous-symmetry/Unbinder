@@ -9,7 +9,15 @@ namespace Unbinder.Repositories
         public override IEnumerable<Recipe>? GetAll => _dbContext.Recipes;
         
 
-        public override Recipe? GetById(int id) => _dbContext.Recipes.Where(r => r.RecipeId == id).First();
+        public override Recipe? GetById(int id)
+        {
+            var recipes = GetAll;
+            if (recipes == null) return null;
+
+            Console.WriteLine(recipes);
+
+            return recipes.Where(r => r.RecipeId == id).FirstOrDefault();
+        }
 
         public override Recipe? UpdateById(int id)
         {
@@ -19,6 +27,13 @@ namespace Unbinder.Repositories
             _dbContext.Recipes.Update(recipe);
             _dbContext.SaveChanges();
             return recipe;
+        }
+
+        public override Recipe Post(Recipe entity)
+        {
+            _dbContext.Recipes.Add(entity);
+            _dbContext.SaveChanges();
+            return entity;
         }
 
         public override int DeleteById(int id)

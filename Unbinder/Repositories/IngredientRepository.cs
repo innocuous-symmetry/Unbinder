@@ -18,6 +18,13 @@ namespace Unbinder.Repositories
             return ingredient;
         }
 
+        public override Ingredient Post(Ingredient entity)
+        {
+            _dbContext.Ingredients.Add(entity);
+            _dbContext.SaveChanges();
+            return entity;
+        }
+
         public override int DeleteById(int id)
         {
             Ingredient? ingredient = GetById(id);

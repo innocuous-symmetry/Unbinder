@@ -13,6 +13,7 @@ namespace Unbinder.Repositories
         public abstract T? GetById(int id);
 
         public abstract T? UpdateById(int id);
+        public abstract T Post(T entity);
 
         public abstract int DeleteById(int id);
     }
