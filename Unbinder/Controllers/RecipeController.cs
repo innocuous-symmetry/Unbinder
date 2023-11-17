@@ -29,7 +29,7 @@ namespace Unbinder.Controllers
         }
 
         [Route("[controller]/search")]
-        public IActionResult Search([FromQuery] string? q, string? category)
+        public IActionResult Search([FromQuery] string? q, [FromQuery] string? category)
         {
             if (q == null && category == null) return View(_recipeRepository.GetAll);
 

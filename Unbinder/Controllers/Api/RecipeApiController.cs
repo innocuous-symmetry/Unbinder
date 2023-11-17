@@ -4,12 +4,22 @@ using Unbinder.Repositories;
 
 namespace Unbinder.Controllers.Api
 {
-    [Route("api/[controller]")]
     [ApiController]
-    public class RecipeApiController : BaseApiController<Recipe>
+    public class RecipeApiController(IRecipeRepository _repository) : ControllerBase
     {
-        public RecipeApiController(IRecipeRepository recipeRepository) : base(recipeRepository)
+        private readonly IRecipeRepository repository = _repository;
+
+        [HttpGet]
+        [Route("/api/recipe/search")]
+        public IActionResult Search([FromQuery] string? q)
         {
+            if (q == null) return Ok(repository.GetAll);
+
+            var result = repository.GetAll?.Where(r => r.Name.Contains(q, StringComparison.OrdinalIgnoreCase));
+
+            return result == null
+                ? NotFound()
+                : Ok(result);
         }
     }
 }

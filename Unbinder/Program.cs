@@ -13,12 +13,12 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 // Add services to the container.
-builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-    .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"));
+//builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+//    .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"));
 
-builder.Services.AddAuthorization(options =>
-    // By default, all incoming requests will be authorized according to the default policy.
-    options.FallbackPolicy = options.DefaultPolicy);
+//builder.Services.AddAuthorization(options =>
+//    // By default, all incoming requests will be authorized according to the default policy.
+//    options.FallbackPolicy = options.DefaultPolicy);
 
 builder.Services.AddDbContext<UnbinderDbContext>(options =>
     options.UseSqlServer(connectionString));
@@ -26,6 +26,16 @@ builder.Services.AddDbContext<UnbinderDbContext>(options =>
 // configure MVC
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
 
 builder.Services.AddScoped<IRecipeRepository, RecipeRepository>();
 builder.Services.AddScoped<IIngredientRepository, IngredientRepository>();
@@ -45,8 +55,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseStaticFiles();
 
-app.UseAuthentication();
-app.UseAuthorization();
+//app.UseAuthentication();
+//app.UseAuthorization();
 
 app.MapDefaultControllerRoute();
 
