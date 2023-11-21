@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+    client:
+        build:
+            context: .
+            dockerfile: ./Docker/DOTNET.Dockerfile
+            args:
+                AWS_S3_URL: ${AWS_S3_URL}
+                AWS_ACCESS_KEY: ${AWS_ACCESS_KEY}
+                AWS_SECRET_KEY: ${AWS_SECRET_KEY}
+                AWS_BUCKET_NAME: ${AWS_BUCKET_NAME}
+        ports:
+            - 80:80
+        depends_on:
+            - db
+    db:
+        build:
+            context: .
+            dockerfile: ./Docker/MSSQL.Dockerfile
+            args:
+                DB_PASSWORD: ${DB_PASSWORD}
+        ports:
+            - 1433:1433

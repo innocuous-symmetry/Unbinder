@@ -2,22 +2,54 @@
 using Amazon.S3;
 using Amazon.S3.Transfer;
 using Amazon.Runtime;
+using System.Net;
+using Amazon.S3.Model;
 
 namespace Unbinder.Services
 {
-    public class S3Service
+    public sealed class S3Service
     {
-        public static AWSCredentials Credentials => 
-            new BasicAWSCredentials(
-                Environment.GetEnvironmentVariable("AWS_ACCESS_KEY"),
-                Environment.GetEnvironmentVariable("AWS_SECRET_KEY"));
+        private static AWSCredentials Credentials
+        {
+            get
+            {
+                string? accessKey = Environment.GetEnvironmentVariable("AWS_ACCESS_KEY");
+                string? secret = Environment.GetEnvironmentVariable("AWS_SECRET_KEY");
 
-        public static AmazonS3Client Client => new(Credentials, RegionEndpoint.USEast1);
+                Console.WriteLine(accessKey ?? "(none)", secret ?? "(none)");
+
+                if (accessKey == null || secret == null)
+                {
+                    throw new Exception("AWS credentials not found");
+                }
+
+                return new BasicAWSCredentials(accessKey, secret);
+            }
+        }
+
+        private static AmazonS3Config Config => new()
+        {
+            RegionEndpoint = RegionEndpoint.USEast2
+        };
+
+        private static AmazonS3Client Client => new(Credentials);
+        private static readonly AmazonS3Client client = Client;
+        private static readonly string? BucketName = Environment.GetEnvironmentVariable("AWS_BUCKET_NAME");
+
+        public static async Task<ListObjectsResponse> ListObjects(string? prefix = "")
+        {
+            var bucketName = BucketName;
+            var request = new ListObjectsRequest
+            {
+                BucketName = bucketName,
+                Prefix = prefix
+            };
+
+            return await client.ListObjectsAsync(request);
+        }
 
         public async Task<string?> UploadFileAsync(IFormFile file)
         {
-            using IAmazonS3 client = Client;
-
             if (file == null || file.Length == 0)
             {
                 return null;
@@ -34,8 +66,6 @@ namespace Unbinder.Services
 
         public async Task GetFile(string path, string outFile)
         {
-            using IAmazonS3 client = Client;
-
             var bucketName = "unbinder-recipe-images";
             using var fileTransferUtility = new TransferUtility(client);
             await fileTransferUtility.DownloadAsync(outFile, bucketName, path);

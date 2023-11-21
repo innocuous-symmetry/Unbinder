@@ -33,7 +33,8 @@ namespace Unbinder.Controllers
         {
             if (q == null && category == null) return View(_recipeRepository.GetAll);
 
-            var result = _recipeRepository.GetAll?.Where(r => r.Name.Contains(q, StringComparison.OrdinalIgnoreCase));
+            var result = _recipeRepository.GetAll?.Where(r => r.Name.Contains(q!, StringComparison.OrdinalIgnoreCase));
+            ViewBag.Query = q;
 
             return result == null 
                 ? NotFound() 

@@ -1,9 +1,13 @@
 ﻿@model IEnumerable<Recipe>
 
+@{
+    string InputValue = ViewBag.Query ?? String.Empty;
+}
+
 <div>
     <div id="search-page-header" class="mb-8 border-white border-b">
         <h3 id="query-message"></h3>
-        <input class="text-black" id="new-search-query" type="text" />
+        <input value="@InputValue" class="text-black" id="new-search-query" type="text" />
         <button id="execute-search">Search</button>
     </div>
     <div id="search-results">
@@ -26,11 +30,7 @@
         console.log(query);
 
         // set initial message value
-        if (query) {
-            message.innerHTML = `Viewing ${@Model.ToArray().Length} results for: ${query}`;
-        } else {
-            message.innerHTML = "Enter a new search term below:";
-        }
+        message.innerHTML = query ? `Viewing ${@Model.ToArray().Length} results for: ${query}` : "Enter a new search term below:";
 
         // handle search updates on client side
         searchButton.onclick = async () => {
@@ -40,13 +40,6 @@
 
             const newResultJson = await newResult.json();
             window.location.search = `?q=${textField.value}`;
-            searchResultsContainer.innerHTML = `@{
-            foreach (var recipe in @Model)
-            {
-                                        <p>@recipe.Name</p>
-                                        <p>@recipe.RecipeText</p>
-            }
-        }`;
         }
     });
 </script>

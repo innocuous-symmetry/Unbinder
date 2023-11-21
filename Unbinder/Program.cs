@@ -8,6 +8,9 @@ using Microsoft.Identity.Web.UI;
 using Unbinder.DB;
 using Unbinder.Models;
 using Unbinder.Repositories;
+using Unbinder.Services;
+using Amazon.S3;
+using Microsoft.Extensions.Azure;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -42,6 +45,10 @@ builder.Services.AddScoped<IIngredientRepository, IngredientRepository>();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddServerSideBlazor();
+
+
+// include extra services
+//builder.Services.AddSingleton(S3Service.Client);
 
 var app = builder.Build();
 
