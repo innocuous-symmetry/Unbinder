@@ -2,23 +2,40 @@ version: '3.8'
 
 services:
     client:
+        depends_on:
+            - db
         build:
             context: .
             dockerfile: ./Docker/DOTNET.Dockerfile
-            args:
-                AWS_S3_URL: ${AWS_S3_URL}
-                AWS_ACCESS_KEY: ${AWS_ACCESS_KEY}
-                AWS_SECRET_KEY: ${AWS_SECRET_KEY}
-                AWS_BUCKET_NAME: ${AWS_BUCKET_NAME}
         ports:
             - 80:80
-        depends_on:
-            - db
+        environment:
+            SA_PASSWORD: /run/secrets/SA_PASSWORD
+            AWS_S3_URL: /run/secrets/AWS_S3_URL
+            AWS_ACCESS_KEY: /run/secrets/AWS_ACCESS_KEY
+            AWS_SECRET_KEY: /run/secrets/AWS_SECRET_KEY
+            AWS_BUCKET_NAME: /run/secrets/AWS_BUCKET_NAME
     db:
-        build:
-            context: .
-            dockerfile: ./Docker/MSSQL.Dockerfile
-            args:
-                DB_PASSWORD: ${DB_PASSWORD}
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        volumes:
+            - ./db_data:/var/opt/mssql/data
         ports:
             - 1433:1433
+        environment:
+            SA_PASSWORD: /run/secrets/SA_PASSWORD
+            ACCEPT_EULA: "Y"
+
+secrets:
+    AWS_S3_URL:
+        file: ./secrets/AWS_S3_URL.txt
+    AWS_ACCESS_KEY:
+        file: ./secrets/AWS_ACCESS_KEY.txt
+    AWS_SECRET_KEY:
+        file: ./secrets/AWS_SECRET_KEY.txt
+    AWS_BUCKET_NAME:
+        file: ./secrets/AWS_BUCKET_NAME.txt
+    SA_PASSWORD:
+        file: ./secrets/SA_PASSWORD.txt
+
+volumes:
+    db_data:    

@@ -1,19 +1,13 @@
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Authorization;
-using Microsoft.Identity.Web;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Web.UI;
 using Unbinder.DB;
-using Unbinder.Models;
 using Unbinder.Repositories;
 using Unbinder.Services;
-using Amazon.S3;
-using Microsoft.Extensions.Azure;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+// pull in environment variables from secrets
+EnvironmentLoader.Load(builder);
 
 // Add services to the container.
 //builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
@@ -23,8 +17,16 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 //    // By default, all incoming requests will be authorized according to the default policy.
 //    options.FallbackPolicy = options.DefaultPolicy);
 
+SqlConnectionStringBuilder connBuilder = new()
+{
+    ConnectionString = builder.Configuration.GetConnectionString("DefaultConnection"),
+    Password = builder.Configuration["SA_PASSWORD"],
+};
+
 builder.Services.AddDbContext<UnbinderDbContext>(options =>
-    options.UseSqlServer(connectionString));
+{
+    options.UseSqlServer(connBuilder.ConnectionString);
+});
 
 // configure MVC
 builder.Services.AddControllersWithViews();

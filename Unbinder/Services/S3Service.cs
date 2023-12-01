@@ -16,8 +16,6 @@ namespace Unbinder.Services
                 string? accessKey = Environment.GetEnvironmentVariable("AWS_ACCESS_KEY");
                 string? secret = Environment.GetEnvironmentVariable("AWS_SECRET_KEY");
 
-                Console.WriteLine(accessKey ?? "(none)", secret ?? "(none)");
-
                 if (accessKey == null || secret == null)
                 {
                     throw new Exception("AWS credentials not found");
@@ -32,7 +30,7 @@ namespace Unbinder.Services
             RegionEndpoint = RegionEndpoint.USEast2
         };
 
-        private static AmazonS3Client Client => new(Credentials);
+        private static AmazonS3Client Client => new(Credentials, Config);
         private static readonly AmazonS3Client client = Client;
         private static readonly string? BucketName = Environment.GetEnvironmentVariable("AWS_BUCKET_NAME");
 

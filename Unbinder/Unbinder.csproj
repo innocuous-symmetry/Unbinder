@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <Folder Include="DB\SQL\" />
+    <Folder Include="secrets\" />
     <Folder Include="__notes__\" />
     <Folder Include="ViewModels\" />
   </ItemGroup>

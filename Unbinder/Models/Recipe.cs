@@ -1,5 +1,8 @@
-﻿namespace Unbinder.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Unbinder.Models
 {
+    [Table("Recipes")]
     public record Recipe
     {
         public int RecipeId { get; init; }
