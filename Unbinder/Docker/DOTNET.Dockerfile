@@ -2,6 +2,7 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 
+ENV CLIENT_PORT=${CLIENT_PORT:-8080}
 ENV AWS_S3_URL=$AWS_S3_URL
 ENV AWS_ACCESS_KEY=$AWS_ACCESS_KEY
 ENV AWS_SECRET_KEY=$AWS_SECRET_KEY
@@ -15,4 +16,6 @@ RUN dotnet publish -o out
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=build /app/out .
+
+EXPOSE $CLIENT_PORT
 ENTRYPOINT ["./Unbinder"]

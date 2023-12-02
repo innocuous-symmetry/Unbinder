@@ -17,6 +17,8 @@ EnvironmentLoader.Load(builder);
 //    // By default, all incoming requests will be authorized according to the default policy.
 //    options.FallbackPolicy = options.DefaultPolicy);
 
+
+// configure database
 SqlConnectionStringBuilder connBuilder = new()
 {
     ConnectionString = builder.Configuration.GetConnectionString("DefaultConnection"),
@@ -53,6 +55,13 @@ builder.Services.AddServerSideBlazor();
 //builder.Services.AddSingleton(S3Service.Client);
 
 var app = builder.Build();
+
+// apply most recent migration to db
+using (IServiceScope scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<UnbinderDbContext>();
+    db.Database.Migrate();
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

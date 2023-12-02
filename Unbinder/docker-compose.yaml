@@ -1,31 +1,48 @@
 version: '3.8'
 
 services:
-    client:
+    unbinder-client:
         depends_on:
-            - db
+            - unbinder-db
+        container_name: unbinder-client
         build:
             context: .
             dockerfile: ./Docker/DOTNET.Dockerfile
         ports:
-            - 80:80
+            - ${CLIENT_PORT}:80
+            - 8080:8080
         environment:
+            CLIENT_PORT: /run/secrets/CLIENT_PORT
             SA_PASSWORD: /run/secrets/SA_PASSWORD
             AWS_S3_URL: /run/secrets/AWS_S3_URL
             AWS_ACCESS_KEY: /run/secrets/AWS_ACCESS_KEY
             AWS_SECRET_KEY: /run/secrets/AWS_SECRET_KEY
             AWS_BUCKET_NAME: /run/secrets/AWS_BUCKET_NAME
-    db:
-        image: mcr.microsoft.com/mssql/server:2022-latest
-        volumes:
-            - ./db_data:/var/opt/mssql/data
+        networks:
+            database:
+    unbinder-db:
+        container_name: unbinder-db
+        build:
+            context: .
+            dockerfile: ./Docker/MSSQL.Dockerfile
         ports:
             - 1433:1433
         environment:
             SA_PASSWORD: /run/secrets/SA_PASSWORD
-            ACCEPT_EULA: "Y"
+        volumes:
+            - ./db_data:/var/opt/mssql/data
+        networks:
+          database:
+            aliases:
+              - unbinder-db
+
+networks:
+    database:
+        driver: bridge
 
 secrets:
+    CLIENT_PORT:
+        file: ./secrets/CLIENT_PORT.txt
     AWS_S3_URL:
         file: ./secrets/AWS_S3_URL.txt
     AWS_ACCESS_KEY:
@@ -38,4 +55,4 @@ secrets:
         file: ./secrets/SA_PASSWORD.txt
 
 volumes:
-    db_data:    
+    db_data:
