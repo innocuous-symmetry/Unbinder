@@ -31,10 +31,11 @@ namespace Unbinder.DB
                 "3. Add the wet ingredients to the dry ingredients and whisk until just combined. Let the batter rest for 5 minutes.\n" +
                 "4. Heat a large nonstick skillet or griddle over medium-low heat. Add a little butter to the pan and swirl to coat. Add ⅓ cup of the batter to the pan and cook until the edges are set and bubbles form on the surface, about 2 minutes. Flip and cook for 1 minute more. Repeat with the remaining batter.\n" +
                 "5. Serve with butter and maple syrup.",
+                S3Url = "https://unbinder.s3.us-east-2.amazonaws.com/Pancake+Recipe.pdf",
             };
         }
 
-        public static Recipe[] InitialRecipes => new Recipe[] { PadThaiRecipe, PancakeRecipe };
+        public static Recipe[] InitialRecipes => [PadThaiRecipe, PancakeRecipe];
 
         public static Ingredient[] PadThaiIngredients
         {

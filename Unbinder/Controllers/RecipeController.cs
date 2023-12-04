@@ -17,11 +17,13 @@ namespace Unbinder.Controllers
         }
 
         [Route("[controller]/{id}")]
-        public IActionResult RecipeId(int id)
+        public IActionResult RecipeId(int id, bool editMode = false)
         {
             var result = _recipeRepository.GetById(id);
 
             Console.WriteLine(result == null ? "No result found" : result);
+
+            ViewBag.EditMode = editMode;
 
             return result == null
                 ? NotFound()

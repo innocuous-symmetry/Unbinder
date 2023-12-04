@@ -1,0 +1,8 @@
+﻿@model IEnumerable<Ingredient>
+
+<div id="ingredient-list">
+    @foreach (var ingredient in Model)
+    {
+        <p>@ingredient.Name</p>
+    }
+</div>

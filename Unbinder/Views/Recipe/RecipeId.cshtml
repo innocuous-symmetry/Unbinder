@@ -1,6 +1,17 @@
 ﻿@model Recipe
 
+@{
+    var editMode = ViewBag.EditMode ?? false;
+}
+
 <div id="recipe-details-by-id">
     <h1>@Model.Name</h1>
     <p>@Model.ShortDescription</p>
+
+    @if (Model.RecipeText != null)
+    {
+        <div id="recipe-text">
+            <p>@Model.RecipeText</p>
+        </div>
+    }
 </div>

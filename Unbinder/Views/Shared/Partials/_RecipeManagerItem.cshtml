@@ -1,0 +1,12 @@
+﻿@model Recipe
+
+<div class="w-full flex">
+    <div class="flex flex-col w-1/2">
+        <a class="text-xl" asp-controller="Recipe" asp-route-recipeId="@Model.RecipeId">@Model.Name</a>
+        <p>@Model.ShortDescription</p>
+    </div>
+    <div class="flex w-1/2">
+        <button>Edit</button>
+        <button>Delete</button>
+    </div>
+</div>

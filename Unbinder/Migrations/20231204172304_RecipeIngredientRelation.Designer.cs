@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Unbinder.DB;
 
@@ -10,9 +11,11 @@ using Unbinder.DB;
 namespace Unbinder.Migrations
 {
     [DbContext(typeof(UnbinderDbContext))]
-    partial class UnbinderDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231204172304_RecipeIngredientRelation")]
+    partial class RecipeIngredientRelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
