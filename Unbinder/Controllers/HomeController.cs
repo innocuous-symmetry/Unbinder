@@ -1,6 +1,5 @@
 ﻿using Amazon.S3;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualBasic;
 using Unbinder.Services;
 
 namespace Unbinder.Controllers
@@ -11,36 +10,40 @@ namespace Unbinder.Controllers
         {
             try
             {
-                var objects = await S3Service.ListObjects();
+                S3Service s3Service = new();
+                var response = await s3Service.ListObjects();
 
-                if (objects != null)
-                {
-                    string keys = "";
-
-                    foreach (var entry in objects.S3Objects)
-                    {
-                        keys += entry.Key + ", ";
-                    }
-                    
-                    if (keys != "") logger.Log(LogLevel.Information, $"Found keys: {keys ?? "(none)"}");
-                }
-                else
+                if (response == null)
                 {
                     logger.Log(LogLevel.Debug, "Did not find results in S3");
+                    return View();
                 }
+
+                string keys = "";
+                foreach (var entry in response.S3Objects)
+                {
+                    keys += entry.Key + ", ";
+                }
+                    
+                if (keys != "") logger.Log(LogLevel.Information, $"Found keys: {keys ?? "(none)"}");
+                return View(response.S3Objects);
             }
             catch (Exception ex)
             {
-                if (ex is AmazonS3Exception s3Exception)
-                {
-                    logger.Log(LogLevel.Warning, s3Exception.ErrorCode);
-                    logger.Log(LogLevel.Warning, s3Exception.Message);
-                }
-                else
-                logger.Log(LogLevel.Error, ex.Message);
+                HandleError(ex, logger);
+                return View();
             }
+        }
 
-            return View();
+        private static void HandleError(Exception ex, ILogger logger)
+        {
+            if (ex is AmazonS3Exception s3Exception)
+            {
+                logger.Log(LogLevel.Warning, s3Exception.ErrorCode);
+                logger.Log(LogLevel.Warning, s3Exception.Message);
+            }
+            else
+                logger.Log(LogLevel.Error, ex.Message);
         }
     }
 }

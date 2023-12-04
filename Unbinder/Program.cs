@@ -47,13 +47,14 @@ builder.Services.AddCors(options =>
 builder.Services.AddScoped<IRecipeRepository, RecipeRepository>();
 builder.Services.AddScoped<IIngredientRepository, IngredientRepository>();
 
+// include aws service
+builder.Services.AddTransient<S3Service>();
+
+// configure front end features
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddServerSideBlazor();
 
-
-// include extra services
-//builder.Services.AddSingleton(S3Service.Client);
-
+// build app
 var app = builder.Build();
 
 // apply most recent migration to db

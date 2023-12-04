@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<S3Object>?
+
+@{
     ViewData["Title"] = "UNBINDER";
 }
 
@@ -6,4 +8,15 @@
     <h1 class="display-4">UNBINDER</h1>
     <p>Digitize your unruly home information stores</p>
     <p>Become <span>u&nbsp;n&nbsp;b&nbsp;o&nbsp;u&nbsp;n&nbsp;d</span></p>
+
+    @if (Model != null)
+    {
+        int i = 1;
+        foreach (var item in Model)
+        {
+            var output = $"{i}: {item.Key.Split(".")[0]}";
+            <p>@output</p>
+            i++;
+        }
+    }
 </div>

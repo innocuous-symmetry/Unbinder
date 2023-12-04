@@ -9,18 +9,17 @@ namespace Unbinder.Services
 {
     public sealed class S3Service
     {
+        private static AmazonS3Client CreateClient()
+        {
+            return new AmazonS3Client(Credentials, Config);
+        }
+
         private static AWSCredentials Credentials
         {
             get
             {
-                string? accessKey = Environment.GetEnvironmentVariable("AWS_ACCESS_KEY");
-                string? secret = Environment.GetEnvironmentVariable("AWS_SECRET_KEY");
-
-                if (accessKey == null || secret == null)
-                {
-                    throw new Exception("AWS credentials not found");
-                }
-
+                string accessKey = Environment.GetEnvironmentVariable("AWS_ACCESS_KEY") ?? throw new Exception("AWS credentials not found");
+                string secret = Environment.GetEnvironmentVariable("AWS_SECRET_KEY") ?? throw new Exception("AWS credentials not found");
                 return new BasicAWSCredentials(accessKey, secret);
             }
         }
@@ -30,43 +29,39 @@ namespace Unbinder.Services
             RegionEndpoint = RegionEndpoint.USEast2
         };
 
-        private static AmazonS3Client Client => new(Credentials, Config);
-        private static readonly AmazonS3Client client = Client;
-        private static readonly string? BucketName = Environment.GetEnvironmentVariable("AWS_BUCKET_NAME");
+        private static readonly string BucketName = Environment.GetEnvironmentVariable("AWS_BUCKET_NAME") ?? throw new Exception("AWS_BUCKET_NAME is not defined");
 
-        public static async Task<ListObjectsResponse> ListObjects(string? prefix = "")
+        public async Task<ListObjectsResponse> ListObjects(string? prefix = "")
         {
-            var bucketName = BucketName;
+            using var _client = CreateClient();
             var request = new ListObjectsRequest
             {
-                BucketName = bucketName,
+                BucketName = BucketName,
                 Prefix = prefix
             };
 
-            return await client.ListObjectsAsync(request);
+            return await _client.ListObjectsAsync(request);
         }
 
         public async Task<string?> UploadFileAsync(IFormFile file)
         {
-            if (file == null || file.Length == 0)
-            {
-                return null;
-            }
+            if (file == null || file.Length == 0) return null;
 
-            var bucketName = "unbinder-recipe-images";
-            var keyName = file.FileName;
+            using var _client = CreateClient();
+            using var fileTransferUtility = new TransferUtility(_client);
 
-            using var fileTransferUtility = new TransferUtility(client);
-            await fileTransferUtility.UploadAsync(file.OpenReadStream(), bucketName, keyName);
+            await fileTransferUtility.UploadAsync(
+                /** Stream stream, string bucketName, string key */
+                file.OpenReadStream(), BucketName, file.FileName);
 
-            return keyName;
+            return file.FileName;
         }
 
         public async Task GetFile(string path, string outFile)
         {
-            var bucketName = "unbinder-recipe-images";
-            using var fileTransferUtility = new TransferUtility(client);
-            await fileTransferUtility.DownloadAsync(outFile, bucketName, path);
+            using var _client = CreateClient();
+            using var fileTransferUtility = new TransferUtility(_client);
+            await fileTransferUtility.DownloadAsync(outFile, BucketName, path);
         }
     }
 }
