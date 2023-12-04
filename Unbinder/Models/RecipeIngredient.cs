@@ -8,7 +8,7 @@ namespace Unbinder.Models
         public int RecipeIngredientId { get; init; }
         public int RecipeId { get; init; }
         public int IngredientId { get; init; }
-        public string? Amount { get; init; }
+        public double? Amount { get; init; }
         public string? Unit { get; init; }
     }
 }

@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Unbinder.Models;
 using Unbinder.Repositories;
+using Unbinder.ViewModels;
 
 namespace Unbinder.Controllers
 {
-    public class RecipeController(IRecipeRepository recipeRepository) : Controller
+    public class RecipeController(IRecipeRepository recipeRepository, IRecipeIngredientRepository recipeIngredientRepository) : Controller
     {
         private readonly IRecipeRepository _recipeRepository = recipeRepository;
+        private readonly IRecipeIngredientRepository _recipeIngredientRepository = recipeIngredientRepository;
 
         public IActionResult Index()
         {
@@ -16,18 +18,19 @@ namespace Unbinder.Controllers
                 : View(result);
         }
 
-        [Route("[controller]/{id}")]
-        public IActionResult RecipeId(int id, bool editMode = false)
+        [Route("[controller]/{recipeId}")]
+        public IActionResult RecipeId(int recipeId, bool editMode = false)
         {
-            var result = _recipeRepository.GetById(id);
-
-            Console.WriteLine(result == null ? "No result found" : result);
-
             ViewBag.EditMode = editMode;
 
-            return result == null
-                ? NotFound()
-                : View(result);
+            var recipe = _recipeRepository.GetById(recipeId);
+            if (recipe == null) return NotFound();
+            var ingredients = _recipeIngredientRepository.GetIngredientsByRecipeId(recipeId);
+
+
+
+            RecipeViewModel recipeViewModel = new(recipe, ingredients);
+            return View(recipeViewModel);
         }
 
         [Route("[controller]/search")]

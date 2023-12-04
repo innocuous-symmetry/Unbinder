@@ -28,7 +28,6 @@
     <Folder Include="secrets\" />
     <Folder Include="TagHelpers\" />
     <Folder Include="__notes__\" />
-    <Folder Include="ViewModels\" />
   </ItemGroup>
 
 </Project>

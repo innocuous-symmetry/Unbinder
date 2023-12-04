@@ -46,6 +46,7 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddScoped<IRecipeRepository, RecipeRepository>();
 builder.Services.AddScoped<IIngredientRepository, IngredientRepository>();
+builder.Services.AddScoped<IRecipeIngredientRepository, RecipeIngredientRepository>();
 
 // include aws service
 builder.Services.AddTransient<S3Service>();

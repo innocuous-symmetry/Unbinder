@@ -10,7 +10,7 @@ using Unbinder.DB;
 
 namespace Unbinder.Migrations
 {
-    [DbContext(typeof(UnbinderDbContext))]
+    [DbContext(typeof(Initializer))]
     [Migration("20231204172304_RecipeIngredientRelation")]
     partial class RecipeIngredientRelation
     {

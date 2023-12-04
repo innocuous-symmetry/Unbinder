@@ -12,8 +12,8 @@ using Unbinder.DB;
 namespace Unbinder.Migrations
 {
     [DbContext(typeof(Initializer))]
-    [Migration("20231117145840_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20231204213851_ModifyDataTypes")]
+    partial class ModifyDataTypes
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,12 +40,7 @@ namespace Unbinder.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("RecipeId")
-                        .HasColumnType("int");
-
                     b.HasKey("IngredientId");
-
-                    b.HasIndex("RecipeId");
 
                     b.ToTable("Ingredients");
                 });
@@ -61,7 +56,7 @@ namespace Unbinder.Migrations
                     b.Property<string>("Author")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImageUrl")
+                    b.Property<string>("MainImageUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -69,6 +64,9 @@ namespace Unbinder.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RecipeText")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("S3Url")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ShortDescription")
@@ -80,16 +78,29 @@ namespace Unbinder.Migrations
                     b.ToTable("Recipes");
                 });
 
-            modelBuilder.Entity("Unbinder.Models.Ingredient", b =>
+            modelBuilder.Entity("Unbinder.Models.RecipeIngredient", b =>
                 {
-                    b.HasOne("Unbinder.Models.Recipe", null)
-                        .WithMany("Ingredients")
-                        .HasForeignKey("RecipeId");
-                });
+                    b.Property<int>("RecipeIngredientId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-            modelBuilder.Entity("Unbinder.Models.Recipe", b =>
-                {
-                    b.Navigation("Ingredients");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RecipeIngredientId"));
+
+                    b.Property<double?>("Amount")
+                        .HasColumnType("float");
+
+                    b.Property<int>("IngredientId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Unit")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("RecipeIngredientId");
+
+                    b.ToTable("RecipeIngredients");
                 });
 #pragma warning restore 612, 618
         }

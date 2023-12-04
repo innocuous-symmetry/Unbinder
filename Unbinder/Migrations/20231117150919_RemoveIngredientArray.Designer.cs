@@ -10,7 +10,7 @@ using Unbinder.DB;
 
 namespace Unbinder.Migrations
 {
-    [DbContext(typeof(UnbinderDbContext))]
+    [DbContext(typeof(Initializer))]
     [Migration("20231117150919_RemoveIngredientArray")]
     partial class RemoveIngredientArray
     {

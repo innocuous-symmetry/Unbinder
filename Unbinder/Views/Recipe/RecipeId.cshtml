@@ -1,17 +1,48 @@
-﻿@model Recipe
+﻿@model RecipeViewModel
 
 @{
     var editMode = ViewBag.EditMode ?? false;
+    Recipe recipe = Model.Recipe;
+    IEnumerable<IngredientWithDetails>? entries = Model.Ingredients;
 }
 
 <div id="recipe-details-by-id">
-    <h1>@Model.Name</h1>
-    <p>@Model.ShortDescription</p>
+    <h1>@recipe.Name</h1>
+    <p>@recipe.ShortDescription</p>
 
-    @if (Model.RecipeText != null)
+    @if (entries != null)
+    {
+        <div id="ingredient-list">
+            <h2>Ingredients:</h2>
+            <div>
+                @foreach (var entry in entries)
+                {
+                    var measurementString = "";
+                    if (entry.Details.Amount != null) measurementString += entry.Details.Amount.ToString();
+                    if (entry.Details.Unit != null) measurementString += entry.Details.Unit;
+
+                    <div>
+                        <p>@entry.Ingredient.Name -- @measurementString</p>
+                    </div>
+                    
+                }
+            </div>
+
+            <br />
+        </div>
+    }
+
+    @if (recipe.RecipeText != null)
     {
         <div id="recipe-text">
-            <p>@Model.RecipeText</p>
+            <p>@recipe.RecipeText</p>
+        </div>
+    }
+
+    @if (recipe.S3Url != null)
+    {
+        <div id="recipe-image-or-pdf">
+
         </div>
     }
 </div>

@@ -37,6 +37,69 @@ namespace Unbinder.DB
 
         public static Recipe[] InitialRecipes => [PadThaiRecipe, PancakeRecipe];
 
+        public static IngredientWithDetails[] PadThaiIngredientsWithDetails
+        {
+            get
+            {
+                return [
+                    new IngredientWithDetails
+                    {
+                        Ingredient = PadThaiIngredients[0],
+                        Details = new IngredientDetails
+                        {
+                            Amount = 1,
+                            Unit = "Bunch, roughly chopped"
+                        }
+                    },
+                    new IngredientWithDetails
+                    {
+                        Ingredient = PadThaiIngredients[1],
+                        Details = new IngredientDetails
+                        {
+                            Amount = 1,
+                            Unit = "Lime (juice)"
+                        }
+                    },
+                    new IngredientWithDetails
+                    {
+                        Ingredient = PadThaiIngredients[2],
+                        Details = new IngredientDetails
+                        {
+                            Amount = 0.25,
+                            Unit = "Cup (chopped)",
+                        }
+                    },
+                    new IngredientWithDetails
+                    {
+                        Ingredient = PadThaiIngredients[3],
+                        Details = new IngredientDetails
+                        {
+                            Amount = 16,
+                            Unit = "oz."
+                        }
+                    },
+                    new IngredientWithDetails
+                    {
+                        Ingredient = PadThaiIngredients[4],
+                        Details = new IngredientDetails
+                        {
+                            Amount = 1,
+                            Unit = "Egg (scrambled)"
+                        }
+                    },
+                    new IngredientWithDetails
+                    {
+                        Ingredient = PadThaiIngredients[5],
+                        Details = new IngredientDetails
+                        {
+                            Amount = 1,
+                            Unit = "Block (diced)"
+                        }
+                    }
+                ];
+            }
+        }
+
         public static Ingredient[] PadThaiIngredients
         {
             get
@@ -99,6 +162,51 @@ namespace Unbinder.DB
                     {
                         Name = "Granulated sugar",
                         Description = "A sweetener",
+                    }
+                ];
+            }
+        }
+
+        public static IngredientWithDetails[] PancakeIngredientsWithDetails
+        {
+            get
+            {
+                return [
+                    new IngredientWithDetails
+                    {
+                        Ingredient = PancakeIngredients[0],
+                        Details = new IngredientDetails
+                        {
+                            Amount = 2,
+                            Unit = "cups",
+                        }
+                    },
+                    new IngredientWithDetails
+                    {
+                        Ingredient = PancakeIngredients[1],
+                        Details = new IngredientDetails
+                        {
+                            Amount = 1,
+                            Unit = "teaspoon"
+                        }
+                    },
+                    new IngredientWithDetails
+                    {
+                        Ingredient = PancakeIngredients[2],
+                        Details = new IngredientDetails
+                        {
+                            Amount = 1,
+                            Unit = "teaspoon",
+                        }
+                    },
+                    new IngredientWithDetails
+                    {
+                        Ingredient = PancakeIngredients[3],
+                        Details = new IngredientDetails
+                        {
+                            Amount = 2,
+                            Unit = "tablespoons"
+                        }
                     }
                 ];
             }
