@@ -21,12 +21,15 @@
     <PackageReference Include="Microsoft.Identity.Web" Version="2.15.3" />
     <PackageReference Include="Microsoft.Identity.Web.UI" Version="2.15.3" />
     <PackageReference Include="Microsoft.SqlServer.Server" Version="1.0.0" />
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="5.3.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="DB\SQL\" />
     <Folder Include="secrets\" />
-    <Folder Include="TagHelpers\" />
     <Folder Include="__notes__\" />
   </ItemGroup>
 

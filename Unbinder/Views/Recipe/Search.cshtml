@@ -33,12 +33,12 @@
         message.innerHTML = query ? `Viewing ${@Model.ToArray().Length} results for: ${query}` : "Enter a new search term below:";
 
         // handle search updates on client side
-        searchButton.onclick = async () => {
-            const newResult = await fetch(`/api/recipe/search?q=${textField.value}`);
+        searchButton.onclick = () => {
+            // const newResult = await fetch(`/api/recipe/search?q=${textField.value}`);
 
-            console.log(newResult);
+            // console.log(newResult);
 
-            const newResultJson = await newResult.json();
+            // const newResultJson = await newResult.json();
             window.location.search = `?q=${textField.value}`;
         }
     });

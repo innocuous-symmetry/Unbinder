@@ -32,6 +32,7 @@ builder.Services.AddDbContext<UnbinderDbContext>(options =>
 
 // configure MVC
 builder.Services.AddControllersWithViews();
+builder.Services.AddControllers(); // map additional controllers for exposed REST API routes
 builder.Services.AddRazorPages();
 
 builder.Services.AddCors(options =>
