@@ -1,4 +1,4 @@
-﻿export async function getAllIngredients () {
+﻿async function getAllIngredients () {
   const ingredients = await fetch('/api/ingredients');
   return await ingredients.json();
 }

@@ -1,12 +1,13 @@
 ﻿@model IEnumerable<Recipe>
 
 @{
-    string InputValue = ViewBag.Query ?? String.Empty;
+    string InputValue = ViewBag.Query ?? "";
+    string InitialMessage = ViewBag.Query == null ? "Search for a recipe" : $"Search results for '{ViewBag.Query}'";
 }
 
 <div>
     <div id="search-page-header" class="mb-8 border-white border-b">
-        <h3 id="query-message"></h3>
+        <h3 id="query-message">@InitialMessage</h3>
         <input value="@InputValue" class="text-black" id="new-search-query" type="text" />
         <button id="execute-search">Search</button>
     </div>
@@ -18,28 +19,4 @@
         }
     </div>
 </div>
-<script type="text/javascript">
-    document.addEventListener("DOMContentLoaded", () => {
-        // dom elements
-        const query = window.location.search?.split("=")[1];
-        const message = document.getElementById("query-message");
-        const textField = document.getElementById("new-search-query");
-        const searchButton = document.getElementById("execute-search");
-        const searchResultsContainer = document.getElementById("search-results");
-
-        console.log(query);
-
-        // set initial message value
-        message.innerHTML = query ? `Viewing ${@Model.ToArray().Length} results for: ${query}` : "Enter a new search term below:";
-
-        // handle search updates on client side
-        searchButton.onclick = () => {
-            // const newResult = await fetch(`/api/recipe/search?q=${textField.value}`);
-
-            // console.log(newResult);
-
-            // const newResultJson = await newResult.json();
-            window.location.search = `?q=${textField.value}`;
-        }
-    });
-</script>
+<script href="~/js/searchRecipes.js"></script>
