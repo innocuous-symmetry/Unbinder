@@ -59,13 +59,6 @@ builder.Services.AddServerSideBlazor();
 // build app
 var app = builder.Build();
 
-// apply most recent migration to db
-using (IServiceScope scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<UnbinderDbContext>();
-    db.Database.Migrate();
-}
-
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -82,5 +75,15 @@ app.UseStaticFiles();
 app.MapDefaultControllerRoute();
 
 Initializer.Seed(app);
+
+// apply most recent migration to db
+using (IServiceScope scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<UnbinderDbContext>();
+    if (db.Database.GetPendingMigrations().Any())
+    {
+        db.Database.Migrate();
+    }
+}
 
 app.Run();

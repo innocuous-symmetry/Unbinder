@@ -1,25 +1,25 @@
 export type Recipe = {
-    RecipeId: number,
-    Name: string,
-    ShortDescription: string,
-    S3Url?: string,
-    Author?: string,
-    RecipeText?: string,
-    MainImageUrl?: string,
+    recipeId: number,
+    name: string,
+    shortDescription: string,
+    s3Url?: string,
+    author?: string,
+    recipeText?: string,
+    mainImageUrl?: string,
 }
 
 export type Ingredient = {
-    IngredientId: number,
-    Name: string,
-    Description?: string
+    ingredientId: number,
+    name: string,
+    description?: string
 }
 
 export type RecipeIngredient = {
-    RecipeIngredientId: number,
-    RecipeId: number,
-    IngredientId: number,
-    Amount?: number,
-    Unit?: string,
+    recipeIngredientId: number,
+    recipeId: number,
+    ingredientId: number,
+    amount?: number,
+    unit?: string,
 }
 
-export type IngredientWithDetails = Ingredient & Pick<RecipeIngredient, 'Amount' | 'Unit'>
+export type IngredientWithDetails = Ingredient & Pick<RecipeIngredient, 'amount' | 'unit'>

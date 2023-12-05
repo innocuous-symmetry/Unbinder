@@ -1,4 +1,6 @@
-﻿async function getAllIngredients () {
+﻿console.log("imported createRecipe");
+
+async function getAllIngredients() {
   const ingredients = await fetch('/api/ingredients');
   return await ingredients.json();
 }

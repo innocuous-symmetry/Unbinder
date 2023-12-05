@@ -2,6 +2,9 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 
+# install nodejs for typescript support
+RUN apt-get update && apt-get -y install nodejs
+
 ENV CLIENT_PORT=${CLIENT_PORT:-8080}
 ENV AWS_S3_URL=$AWS_S3_URL
 ENV AWS_ACCESS_KEY=$AWS_ACCESS_KEY

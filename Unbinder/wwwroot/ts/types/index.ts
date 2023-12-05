@@ -1,2 +1,14 @@
-export * from "./models";
-export * from "./validators";
+﻿export {
+    isRecipe,
+    isArrayOfType,
+    isIngredient,
+    isIngredientArray,
+    isRecipeArray
+} from "./validators";
+
+export type {
+    Recipe,
+    Ingredient,
+    RecipeIngredient,
+    IngredientWithDetails,
+} from "./models";
