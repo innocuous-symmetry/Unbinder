@@ -22,5 +22,7 @@ export default meta;
 type Story = StoryObj<ButtonProps>;
 
 export const Primary: Story = {
-    args: {}
+    args: {
+        
+    }
 }

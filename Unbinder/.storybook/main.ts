@@ -6,7 +6,6 @@ import autoprefixer from 'autoprefixer';
 
 const config: StorybookConfig = {
   stories: [
-    "../wwwroot/ts/stories/**/*.mdx",
     "../wwwroot/ts/stories/ui/**/*.stories.@(js|jsx|mjs|ts|tsx)",
   ],
   addons: [

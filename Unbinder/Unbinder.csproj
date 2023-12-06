@@ -8,6 +8,10 @@
     <UserSecretsId>aspnet-Unbinder-d1949c36-2a4b-40ef-b530-fd5a24526f87</UserSecretsId>
   </PropertyGroup>
 
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="Powershell.exe ./BuildTools/build.ps1 -js" />
+  </Target>
+
   <ItemGroup>
     <PackageReference Include="AWSSDK.S3" Version="3.7.300.4" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" NoWarn="NU1605" />
