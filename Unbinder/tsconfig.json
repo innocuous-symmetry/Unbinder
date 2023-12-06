@@ -5,9 +5,11 @@
     "removeComments": false,
     "sourceMap": true,
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "moduleResolution": "Bundler",
     "module": "ESNext",
-    "target": "ES5",
+    "target": "ES6",
+    "rootDir": "wwwroot/ts",
     "outDir": "wwwroot/js"
   },
   "include": [
@@ -16,5 +18,10 @@
   "exclude": [
     "node_modules",
     "wwwroot/js"
-  ]
+  ],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
+  }
 }

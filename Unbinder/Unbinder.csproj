@@ -26,7 +26,32 @@
   <ItemGroup>
     <Folder Include="DB\SQL\" />
     <Folder Include="secrets\" />
+    <Folder Include="wwwroot\ts\shared\" />
     <Folder Include="__notes__\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\ts\stories\assets\accessibility.png" />
+    <None Include="wwwroot\ts\stories\assets\accessibility.svg" />
+    <None Include="wwwroot\ts\stories\assets\addon-library.png" />
+    <None Include="wwwroot\ts\stories\assets\assets.png" />
+    <None Include="wwwroot\ts\stories\assets\avif-test-image.avif" />
+    <None Include="wwwroot\ts\stories\assets\context.png" />
+    <None Include="wwwroot\ts\stories\assets\discord.svg" />
+    <None Include="wwwroot\ts\stories\assets\docs.png" />
+    <None Include="wwwroot\ts\stories\assets\figma-plugin.png" />
+    <None Include="wwwroot\ts\stories\assets\github.svg" />
+    <None Include="wwwroot\ts\stories\assets\share.png" />
+    <None Include="wwwroot\ts\stories\assets\styling.png" />
+    <None Include="wwwroot\ts\stories\assets\testing.png" />
+    <None Include="wwwroot\ts\stories\assets\theming.png" />
+    <None Include="wwwroot\ts\stories\assets\tutorials.svg" />
+    <None Include="wwwroot\ts\stories\assets\youtube.svg" />
+    <None Include="wwwroot\ts\stories\Configure.mdx" />
+    <None Include="wwwroot\ts\stories\index.ts" />
+    <None Include="wwwroot\ts\stories\ui\button\Button.stories.ts" />
+    <None Include="wwwroot\ts\stories\ui\button\Button.ts" />
+    <None Include="wwwroot\ts\stories\ui\button\index.ts" />
   </ItemGroup>
 
 </Project>
